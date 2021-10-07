@@ -1,47 +1,49 @@
 // -*-c++-*-
-
-// --------------------------------------------------------------
-//
-// Jordi Bataller i Mascarell
-// 2019-07-07
-//
-// --------------------------------------------------------------
-
+// ----------------------------------------------------------
+// Àngel Buigues Anrdes
+// 2019-09-20
+// ----------------------------------------------------------
 // https://learn.sparkfun.com/tutorials/nrf52840-development-with-arduino-and-circuitpython
-
 // https://stackoverflow.com/questions/29246805/can-an-ibeacon-have-a-data-payload
-
 // --------------------------------------------------------------
+
 // --------------------------------------------------------------
 #include <bluefruit.h>
-
 #undef min // vaya tela, están definidos en bluefruit.h y  !
 #undef max // colisionan con los de la biblioteca estándar
-
 // --------------------------------------------------------------
+
 // --------------------------------------------------------------
 #include "LED.h"
 #include "PuertoSerie.h"
+// --------------------------------------------------------------
 
 // --------------------------------------------------------------
-// --------------------------------------------------------------
-namespace Globales {
+/**
+ * La funcion Global() es donde se declaran todas las variables globales.
+ * Global{
+ *  elLed:LED
+ *  elPuerto:PuertoSerie
+ *  elPublicador:Publicador
+ *  elMedidor:Medidor
+ * }:namespace
+ */
+namespace Globales { // variables globales
   
-  LED elLED ( /* NUMERO DEL PIN LED = */ 7 );
+  LED elLED ( 7 );  // NUMERO DEL PIN LED
 
-  PuertoSerie elPuerto ( /* velocidad = */ 115200 ); // 115200 o 9600 o ...
-
+  PuertoSerie elPuerto ( 115200 ); // 115200 o 9600 o ...  velocidad 
+  
   // Serial1 en el ejemplo de Curro creo que es la conexión placa-sensor 
 };
-
 // --------------------------------------------------------------
+
 // --------------------------------------------------------------
 #include "EmisoraBLE.h"
 #include "Publicador.h"
 #include "Medidor.h"
-
-
 // --------------------------------------------------------------
+
 // --------------------------------------------------------------
 namespace Globales {
 
@@ -50,53 +52,52 @@ namespace Globales {
   Medidor elMedidor;
 
 }; // namespace
+// --------------------------------------------------------------
 
 // --------------------------------------------------------------
-// --------------------------------------------------------------
+/**
+ * La funcion inicializarPlaquita() de momento nada.
+ * inicializarPlaquita()
+ */
 void inicializarPlaquita () {
-
-  // de momento nada
-
 } // ()
-
 // --------------------------------------------------------------
-// setup()
+// 
 // --------------------------------------------------------------
+/**
+ * La funcion setup() esta funcion sólo se ejecutará una vez al inicio del sistema.
+ * setup() ->
+ */
 void setup() {
-
   Globales::elPuerto.esperarDisponible();
-
   // 
   // 
   // 
   inicializarPlaquita();
-
   // Suspend Loop() to save power
   // suspendLoop();
-
   // 
   // 
   // 
   Globales::elPublicador.encenderEmisora();
-
   // Globales::elPublicador.laEmisora.pruebaEmision();
-  
   // 
   // 
   // 
   Globales::elMedidor.iniciarMedidor();
-
   // 
   // 
   // 
   esperar( 1000 );
-
   Globales::elPuerto.escribir( "---- setup(): fin ---- \n " );
-
 } // setup ()
+// --------------------------------------------------------------
 
 // --------------------------------------------------------------
-// --------------------------------------------------------------
+/**
+ * La funcion lucecitas() enciende y apaga el led.
+ * lucecitas()
+ */
 inline void lucecitas() {
   using namespace Globales;
 
@@ -109,16 +110,25 @@ inline void lucecitas() {
   Globales::elLED.brillar( 1000 ); // 1000 encendido
   esperar ( 1000 ); //  100 apagado
 } // ()
-
 // --------------------------------------------------------------
-// loop ()
+// 
 // --------------------------------------------------------------
+/**
+ * La funcion Loop declara cont a 0.
+ * Loop{
+ *  cont:N = 0
+ *  }:namespace
+ */
 namespace Loop {
   uint8_t cont = 0;
 };
+// ..............................................................
 
 // ..............................................................
-// ..............................................................
+/**
+ * La funcion loop() esta funcion se ejecutará en bucle mientras el sistema este en funcionamiento.
+ * loop()
+ */
 void loop () {
 
   using namespace Loop;
@@ -182,9 +192,8 @@ void loop () {
   elPuerto.escribir( "---- loop(): acaba **** " );
   elPuerto.escribir( cont );
   elPuerto.escribir( "\n" );
+  // --------------------------------------------------------------
   
 } // loop ()
-// --------------------------------------------------------------
-// --------------------------------------------------------------
-// --------------------------------------------------------------
+
 // --------------------------------------------------------------

@@ -1,63 +1,89 @@
 // -*- mode: c++ -*-
-
-// --------------------------------------------------------------
-// Jordi Bataller i Mascarell
-// --------------------------------------------------------------
-
+// ----------------------------------------------------------
+// Àngel Buigues Anrdes
+// 2019-09-20
+// ----------------------------------------------------------
 #ifndef PUBLICADOR_H_INCLUIDO
 #define PUBLICADOR_H_INCLUIDO
 
 // --------------------------------------------------------------
-// --------------------------------------------------------------
-class Publicador {
+class Publicador { // classe Publicador
 
-  // ............................................................
   // ............................................................
 private:
-
+  /**
+ * La funcion beaconUUID().
+ * beaconUUID:[Texto]
+ */
   uint8_t beaconUUID[16] = { 
 	'E', 'P', 'S', 'G', '-', 'G', 'T', 'I', 
 	'-', 'P', 'R', 'O', 'Y', '-', '3', 'A'
 	};
+  // ............................................................
 
-  // ............................................................
-  // ............................................................
 public:
+
+  /**
+ * La funcion laEmisora().
+ * laEmisora:EmisoraBLE
+ */
   EmisoraBLE laEmisora {
 	"GTI-3A", //  nombre emisora
 	  0x004c, // fabricanteID (Apple)
 	  4 // txPower
 	  };
-  
-  const int RSSI = -53; // por poner algo, de momento no lo uso
+  // ............................................................
 
+  /**
+ * La funcion RSSI().
+ * RSSI():Z
+ */
+  const int RSSI = -53; // por poner algo, de momento no lo uso
   // ............................................................
-  // ............................................................
+
 public:
 
   // ............................................................
-  // ............................................................
+  /**
+ * La funcion MedicionesID() almacena todas las mediciones.
+ * MedicionesID -> N,N,N
+ */
   enum MedicionesID  {
 	CO2 = 11,
 	TEMPERATURA = 12,
 	RUIDO = 13
   };
+  // ............................................................
 
   // ............................................................
-  // ............................................................
+  /**
+  * La funcion Publicador() es un constructor vacio.
+  * Publicador()
+  */
   Publicador( ) {
 	// ATENCION: no hacerlo aquí. (*this).laEmisora.encenderEmisora();
 	// Pondremos un método para llamarlo desde el setup() más tarde
   } // ()
+  // ............................................................
 
   // ............................................................
-  // ............................................................
+  /**
+  * La funcion encenderEmisora() llama a la funcion laEmisora y la enciende.
+  * encenderEmisora() ->
+  */
   void encenderEmisora() {
 	(*this).laEmisora.encenderEmisora();
   } // ()
+  // ............................................................
 
   // ............................................................
-  // ............................................................
+  /**
+  * La funcion publicarCO2() publica los valores de CO2 en laEmisora.
+  * Z,N,Z -> publicarCO2() <-
+  * @param valorCO2 parametro de valor entero.
+  * @param contador parametro de valor natural.
+  * @param tiempoEspera parametro de valor entero.
+  */
   void publicarCO2( int16_t valorCO2, uint8_t contador,
 					long tiempoEspera ) {
 
@@ -91,9 +117,16 @@ public:
 	//
 	(*this).laEmisora.detenerAnuncio();
   } // ()
+  // ............................................................
 
   // ............................................................
-  // ............................................................
+  /**
+  * La funcion publicarCO2() publica la temperatura en laEmisora.
+  * Z,N,Z -> publicarTemperatura() <-
+  * @param valorTemperatura parametro de valor entero.
+  * @param contador parametro de valor natural.
+  * @param tiempoEspera parametro de valor entero.
+  */
   void publicarTemperatura( int16_t valorTemperatura,
 							uint8_t contador, long tiempoEspera ) {
 
@@ -107,11 +140,9 @@ public:
 
 	(*this).laEmisora.detenerAnuncio();
   } // ()
-	
+  // --------------------------------------------------------------
+
 }; // class
 
-// --------------------------------------------------------------
-// --------------------------------------------------------------
-// --------------------------------------------------------------
 // --------------------------------------------------------------
 #endif
